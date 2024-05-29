@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Create a product
+// Create a product (protected route)
 router.post('/', async (req, res) => {
   const product = new Product({
     name: req.body.name,
