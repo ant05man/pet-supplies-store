@@ -1,12 +1,6 @@
-// client/src/services/api.js
-// service used to handle API requests using 'axios'
-
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api';
+const API = axios.create({ baseURL: 'http://localhost:5000/api' });
 
-export const getProducts = async () => {
-  return await axios.get(`${API_URL}/products`);
-};
-
-// Additional API functions for users, orders, reviews
+export const fetchProducts = () => API.get('/products');
+export const registerUser = (userData) => API.post('/users/register', userData);
