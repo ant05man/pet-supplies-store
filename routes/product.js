@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
-
+const auth = require('../middleware/auth');
 // Get all products
 router.get('/', async (req, res) => {
   try {
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Update a product
+// Update a product (protected route)
 router.put('/:id', async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -38,7 +38,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete a product
+// Delete a product (protected route)
 router.delete('/:id', async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
