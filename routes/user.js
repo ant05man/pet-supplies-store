@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
 const User = require('../models/User');
 
 // Register a new user
@@ -51,6 +52,16 @@ router.post('/login', async (req, res) => {
       if (err) throw err;
       res.json({ token });
     });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get current user
+router.get('/me', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

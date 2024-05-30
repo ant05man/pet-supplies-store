@@ -1,20 +1,35 @@
+require('dotenv').config();
 const express = require('express');
-const connectDB = require('./config/db');
+const path = require('path');
+const userRoutes = require('./routes/user');
+const productRoutes = require('./routes/product');
+const orderRoutes = require('./routes/order');
+const reviewRoutes = require('./routes/review');
+const db = require('./config/db');
 
 const app = express();
 
-// Connect Database
-connectDB();
+// Connect to the database
+db();
 
-// Init Middleware
-app.use(express.json({ extended: false }));
+// Middleware
+app.use(express.json());
 
-// Define Routes
-app.use('/api/users', require('./routes/user'));
-app.use('/api/products', require('./routes/product'));
-app.use('/api/orders', require('./routes/order'));
-app.use('/api/reviews', require('./routes/review'));
+// Routes
+app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/reviews', reviewRoutes);
 
-const PORT = process.env.PORT || 3001;
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
