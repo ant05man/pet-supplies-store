@@ -3,27 +3,16 @@ import axios from 'axios';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem('token');
-      if (!token) {
-        setError('No token found');
-        return;
-      }
-
-      try {
-        const res = await axios.get('/api/users/me', { headers: { 'x-auth-token': token } });
-        setUser(res.data);
-      } catch (err) {
-        setError('Failed to fetch user');
-      }
+      const res = await axios.get('/api/users/me', { headers: { 'x-auth-token': token } });
+      setUser(res.data);
     };
     fetchUser();
   }, []);
 
-  if (error) return <div>{error}</div>;
   if (!user) return <div>Loading...</div>;
 
   return (

@@ -14,12 +14,13 @@ const Signup = () => {
 
   const onSubmit = async e => {
     e.preventDefault();
+    console.log('Form submitted:', formData); // Debugging line
     try {
       const res = await axios.post('/api/users/register', formData);
-      console.log(res.data);
+      console.log('Response:', res.data); // Debugging line
       // Redirect or show success message
     } catch (err) {
-      console.error(err.response.data);
+      console.error('Error:', err.response ? err.response.data : err.message); // Improved error handling
     }
   };
 
