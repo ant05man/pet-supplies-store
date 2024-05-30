@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
-const User = require('../models/User');
+const User = require('../models/User'); // Ensure this matches the correct casing
 
 // Register a new user
 router.post('/register', async (req, res) => {
